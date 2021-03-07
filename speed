@@ -1,0 +1,145 @@
+package test;
+
+public class Speed {
+
+	public Speed()
+	{
+		
+	}
+	public static void main(String[] args) {
+		
+//		1st input
+		SpeedData spData1 = new SpeedData();
+		spData1.setDate("29-5-2017");
+		spData1.setFinishTimeInMinute(15);
+		spData1.setLenghtofRuninKilometers(5);
+//		2nd input
+		SpeedData spData2 = new SpeedData();
+		spData2.setDate("9-3-2017");
+		spData2.setFinishTimeInMinute(35);
+		spData2.setLenghtofRuninKilometers(10);
+//		3rd input
+		SpeedData spData3 = new SpeedData();
+		spData3.setDate("29-3-2017");
+		spData3.setFinishTimeInMinute(13);
+		spData3.setLenghtofRuninKilometers(5);
+		SpeedData john_runs[] = {spData1,spData2,spData3};
+		int speed[]= {5,10,15};
+		SpeedData output[]  = new SpeedData[speed.length];
+		output = milestones(output,john_runs,speed);
+		printOutput(output);
+
+}
+
+private static void printOutput(SpeedData[] output) {
+	System.out.print("[");	
+	for(int i =0 ;i<output.length;i++)
+		{
+			System.out.print(output[i].getFinishTimeInMinute());
+			if(i!=output.length-1)
+			{
+				System.out.print(",");
+			}
+		}
+		System.out.println("]");
+		
+	}
+private static SpeedData[] milestones(SpeedData[] output, SpeedData[] john_runs, int[] speed) 
+{
+		for(int i = 0;i<john_runs.length-1;i++)
+		{
+			for(int j = 0;j<john_runs.length-i-1;j++)
+			{
+				if(john_runs[j].getLenghtofRuninKilometers()>john_runs[j+1].getLenghtofRuninKilometers())
+				{
+					
+					SpeedData sp = john_runs[j];
+					john_runs[j] = john_runs[j+1];
+					john_runs[j+1] = sp;
+				}
+				else if(john_runs[j].getLenghtofRuninKilometers()==john_runs[j+1].getLenghtofRuninKilometers()
+						&&
+						john_runs[j].getFinishTimeInMinute()>john_runs[j+1].getFinishTimeInMinute()
+						)
+				{
+
+					SpeedData sp = john_runs[j];
+					john_runs[j] = john_runs[j+1];
+					john_runs[j+1] = sp;
+				}
+			}
+		}
+		for(int i =0 ;i<john_runs.length;i++)
+		{
+			System.out.println(john_runs[i]);
+		}
+		output = getOutput(john_runs,speed,output);
+		
+		return output;
+	}
+private static SpeedData[] getOutput(SpeedData[] john_runs, int[] speed, SpeedData[] output) {
+	for(int i =0 ;i<speed.length;i++)
+	{
+		
+		SpeedData s1 = getFirstOccuranceOfElement(speed[i],john_runs);
+		if(s1!=null)
+		{
+			output[i] = s1;
+		}
+		else
+		{
+			output[i] = new SpeedData();
+		}
+	}
+	return output;
+}
+private static SpeedData getFirstOccuranceOfElement(int speed, SpeedData[] john_runs) {
+	for(int i =0 ;i<john_runs.length;i++)
+	{
+		if(speed==john_runs[i].getLenghtofRuninKilometers())
+			return john_runs[i];
+	}
+	return null;
+}
+
+}///class
+
+class SpeedData
+{
+	private String date;
+	private int finishTimeInMinute;
+	private int lenghtofRuninKilometers;
+	/**
+	 * 
+	 */
+	public SpeedData()
+	{
+		
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public int getFinishTimeInMinute() {
+		return finishTimeInMinute;
+	}
+	public void setFinishTimeInMinute(int finishTimeInMinute) {
+		this.finishTimeInMinute = finishTimeInMinute;
+	}
+	public int getLenghtofRuninKilometers() {
+		return lenghtofRuninKilometers;
+	}
+	public void setLenghtofRuninKilometers(int lenghtofRuninKilometers) {
+		this.lenghtofRuninKilometers = lenghtofRuninKilometers;
+	}
+	@Override
+	public String toString() {
+		return "SpeedData [date=" + date + ", finishTimeInMinute=" + finishTimeInMinute + ", lenghtofRuninKilometers="
+				+ lenghtofRuninKilometers + "]";
+	}
+	
+	
+}
+
